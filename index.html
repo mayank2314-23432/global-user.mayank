@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Portfolio</title>
+<meta name="description" content="Game development portfolio: TeatherLab, Borrowed, Burnedlines, Havoworld and more.">
+<style>
+  :root {
+    --bg: #060a0e; --panel: #0c1218; --line: #17303a;
+    --text: #e6f4f7; --muted: #8aa3ab; --discord: #5865f2;
+    --volt: #00e5ff; --mono: "Cascadia Code", Consolas, "Courier New", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body {
+    color: var(--text);
+    font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  }
+  #circuit { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; }
+
+  /* code-style labels */
+  .eyebrow, .tag, .sub, nav .links, footer, .brand { font-family: var(--mono); }
+  .brand::before { content: "</> "; color: var(--volt); }
+  .eyebrow { color: var(--volt) !important; text-transform: none !important; letter-spacing: .05em !important; font-size: 15px !important; min-height: 1.6em; }
+  .eyebrow::after { content: "_"; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  h2::before { content: "// "; color: var(--volt); font-family: var(--mono); font-weight: 400; }
+  h1 { text-shadow: 0 0 30px rgba(0,229,255,.25); }
+
+  /* current running along the top edge of each card */
+  .card { position: relative; }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    background-size: 40% 100%; background-repeat: no-repeat;
+    animation: current 3s linear infinite;
+  }
+  @keyframes current { from { background-position: -70% 0; } to { background-position: 170% 0; } }
+  .card:hover { box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent); }
+  .cover::after {
+    content: ""; position: absolute; inset: 0; opacity: .5;
+    background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .cover.has-img::after { display: none; }
+  .cover span { position: relative; z-index: 1; font-family: var(--mono); }
+
+  /* power-on reveal */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s, transform .6s; }
+  .reveal.on { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card::before, .eyebrow::after, .tag.status::before { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  nav { position: sticky; top: 0; z-index: 5; background: rgba(6,10,14,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { font-weight: 700; letter-spacing: .04em; }
+  nav .links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+  nav .links a:hover { color: var(--text); }
+
+  header { padding: 96px 0 72px; }
+  .eyebrow { color: var(--muted); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; }
+  h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.05; margin: 14px 0 18px; letter-spacing: -.02em; }
+  header p { max-width: 560px; color: var(--muted); font-size: 18px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px; border-radius: 10px; font-weight: 600; font-size: 14px;
+    border: 1px solid var(--line); background: var(--panel); cursor: pointer;
+    transition: transform .15s, border-color .15s;
+  }
+  .btn:hover { transform: translateY(-2px); border-color: #3a3f50; }
+  .btn.primary { background: var(--volt); color: #04121a; border-color: var(--volt); box-shadow: 0 0 18px rgba(0,229,255,.45); }
+  .btn.discord { background: var(--discord); border-color: var(--discord); color: #fff; }
+  .btn.off { opacity: .5; pointer-events: none; }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  section { padding: 56px 0; }
+  h2 { font-size: 28px; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 28px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .card.featured { grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .card.featured { flex-direction: row; }
+    .card.featured .cover { width: 55%; aspect-ratio: auto; min-height: 300px; }
+    .card.featured .body { justify-content: center; padding: 32px; }
+    .card.featured h3 { font-size: 32px; }
+  }
+  .cover {
+    aspect-ratio: 16 / 9; position: relative; display: grid; place-items: center;
+    background:
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 70%, transparent), transparent 55%),
+      radial-gradient(circle at 85% 90%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 60%),
+      #0f1016;
+    background-size: cover; background-position: center;
+  }
+  [hidden] { display: none !important; }
+  .cover span { font-size: 26px; padding: 0 16px; text-align: center; overflow-wrap: anywhere; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0,0,0,.6); }
+  .cover.has-img span { display: none; }
+  .body { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 12px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.status { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+  .tag.status::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: middle; animation: pulse 1.8s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  h3 { font-size: 22px; }
+  .body p { color: var(--muted); font-size: 15px; }
+  .card .actions { margin-top: auto; padding-top: 6px; }
+
+  .discord-box {
+    background: linear-gradient(135deg, #5865f2, #3b45c4); border-radius: 20px; padding: 40px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .discord-box h2 { margin-bottom: 8px; }
+  .discord-box p { color: #dfe2ff; max-width: 520px; }
+  .discord-box .btn { background: #fff; color: #3b45c4; border-color: #fff; font-size: 16px; padding: 14px 24px; }
+  .online { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: #fff; }
+  .online::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #3ddc84; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; margin-top: 40px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+</style>
+</head>
+<body>
+<canvas id="circuit" aria-hidden="true"></canvas>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top" id="brand"></a>
+  <div class="links">
+    <a href="#games">Games</a>
+    <a href="#community">Discord</a>
+    <a href="#" id="navGithub" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header id="top"><div class="wrap">
+  <div class="eyebrow" id="role"></div>
+  <h1 id="name"></h1>
+  <p id="tagline"></p>
+  <div class="actions">
+    <a class="btn primary" href="#games">View games</a>
+    <a class="btn discord" data-discord target="_blank" rel="noopener"></a>
+    <a class="btn" id="heroGithub" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" id="heroMail">Contact</a>
+  </div>
+</div></header>
+
+<section id="games"><div class="wrap">
+  <h2>Games</h2>
+  <p class="sub">All projects are in active development.</p>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="community"><div class="wrap">
+  <div class="discord-box">
+    <div>
+      <h2>Join the TeatherLab Discord</h2>
+      <p>Follow development, see early builds and screenshots, and share feedback directly.</p>
+      <div class="online" id="online" hidden></div>
+    </div>
+    <a class="btn" data-discord target="_blank" rel="noopener"></a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span id="copy"></span>
+  <span>Made with Unity &amp; Unreal Engine</span>
+</div></footer>
+
+<script src="games.js"></script>
+<script>
+  const DISCORD_ICON = '<svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Zm4 5.500a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3Zm6 0a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3Z"/></svg>';
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  document.title = SITE.name + " — Game Portfolio";
+  $("brand").textContent = SITE.name;
+  $("name").textContent = SITE.name;
+  const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const roleText = "> " + SITE.role.toLowerCase().replace(/\s+/g, "_") + ".run()";
+  if (REDUCE) $("role").textContent = roleText;
+  else { let i = 0; const t = setInterval(() => { $("role").textContent = roleText.slice(0, ++i); if (i >= roleText.length) clearInterval(t); }, 60); }
+  $("tagline").textContent = SITE.tagline;
+  $("copy").textContent = "© " + new Date().getFullYear() + " " + SITE.name;
+
+  for (const id of ["navGithub", "heroGithub"]) {
+    if (SITE.github) $(id).href = SITE.github; else $(id).remove();
+  }
+  if (SITE.contactEmail) $("heroMail").href = "mailto:" + SITE.contactEmail; else $("heroMail").remove();
+
+  function discordBtn(el) {
+    if (SITE.discordInvite) { el.href = SITE.discordInvite; el.innerHTML = DISCORD_ICON + "Join Discord"; }
+    else { el.classList.add("off"); el.innerHTML = DISCORD_ICON + "Discord link coming soon"; }
+  }
+
+  const LINK_LABELS = { play: "Play", trailer: "Trailer", steam: "Steam", itch: "itch.io", github: "Source" };
+  $("grid").innerHTML = GAMES.map(g => {
+    const links = Object.entries(g.links || {}).filter(([, u]) => u)
+      .map(([k, u]) => `<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${LINK_LABELS[k] || esc(k)}</a>`).join("");
+    const discord = g.hasDiscord ? `<a class="btn discord" data-discord target="_blank" rel="noopener"></a>` : "";
+    const img = g.image ? ` has-img" style="background-image:url('${esc(g.image)}')` : "";
+    return `<article class="card${g.featured ? " featured" : ""}" style="--accent:${esc(g.accent || "#7c5cff")}">
+      <div class="cover${img}"><span>${esc(g.title)}</span></div>
+      <div class="body">
+        <div class="tags">
+          <span class="tag status">${esc(g.status)}</span>
+          ${g.engine ? `<span class="tag">${esc(g.engine)}</span>` : ""}
+        </div>
+        <h3>${esc(g.title)}</h3>
+        <p>${esc(g.blurb)}</p>
+        ${links || discord ? `<div class="actions">${discord}${links}</div>` : ""}
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll("[data-discord]").forEach(discordBtn);
+
+  // Reveal cards as they scroll into view
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll(".card, .discord-box").forEach(el => { el.classList.add("reveal"); io.observe(el); });
+
+  // Circuit background: traces on a grid with pulses of current travelling along them
+  (function () {
+    const c = $("circuit"), x = c.getContext("2d"), G = 40;
+    let W, H, paths = [], last = 0;
+    function build() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight;
+      c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      paths = [];
+      const n = Math.round(W * H / 45000) + 6;
+      for (let i = 0; i < n; i++) {
+        let px = Math.round(Math.random() * W / G) * G, py = Math.round(Math.random() * H / G) * G;
+        const pts = [[px, py]], lens = [];
+        let horiz = Math.random() < .5, total = 0;
+        for (let s = 0, segs = 3 + Math.floor(Math.random() * 4); s < segs; s++) {
+          const len = (1 + Math.floor(Math.random() * 5)) * G, dir = Math.random() < .5 ? -1 : 1;
+          if (horiz) px += len * dir; else py += len * dir;
+          pts.push([px, py]); lens.push(len); total += len; horiz = !horiz;
+        }
+        paths.push({ pts, lens, total, t: Math.random(), speed: 60 + Math.random() * 80 });
+      }
+      if (REDUCE) draw(0);
+    }
+    function pointAt(p, d) {
+      for (let k = 0; k < p.lens.length; k++) {
+        if (d <= p.lens[k]) { const a = p.pts[k], b = p.pts[k + 1], f = d / p.lens[k]; return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]; }
+        d -= p.lens[k];
+      }
+      return p.pts[p.pts.length - 1];
+    }
+    function draw(ts) {
+      const dt = Math.min((ts - last) / 1000, .05); last = ts;
+      x.clearRect(0, 0, W, H);
+      x.lineWidth = 1; x.strokeStyle = "rgba(0,229,255,.13)"; x.fillStyle = "rgba(0,229,255,.3)";
+      for (const p of paths) {
+        x.beginPath(); p.pts.forEach((q, i) => i ? x.lineTo(q[0], q[1]) : x.moveTo(q[0], q[1])); x.stroke();
+        for (const q of [p.pts[0], p.pts[p.pts.length - 1]]) { x.beginPath(); x.arc(q[0], q[1], 3, 0, 7); x.fill(); }
+      }
+      if (REDUCE) return;
+      x.fillStyle = "#7df9ff"; x.shadowColor = "#00e5ff"; x.shadowBlur = 12;
+      for (const p of paths) {
+        p.t += p.speed * dt / p.total;
+        if (p.t > 1.3) p.t = -Math.random() * .5;
+        if (p.t < 0 || p.t > 1) continue;
+        const [a, b] = pointAt(p, p.t * p.total);
+        x.beginPath(); x.arc(a, b, 2.2, 0, 7); x.fill();
+      }
+      x.shadowBlur = 0;
+      requestAnimationFrame(draw);
+    }
+    build(); addEventListener("resize", build);
+    if (!REDUCE) requestAnimationFrame(draw);
+  })();
+
+  // Live member count (needs the server widget enabled in Discord)
+  if (SITE.discordServerId) {
+    fetch(`https://discord.com/api/guilds/${SITE.discordServerId}/widget.json`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (!d) return;
+        $("online").textContent = d.presence_count + " online now";
+        $("online").hidden = false;
+        if (!SITE.discordInvite && d.instant_invite) {
+          SITE.discordInvite = d.instant_invite;
+          document.querySelectorAll("[data-discord]").forEach(el => { el.classList.remove("off"); discordBtn(el); });
+        }
+      }).catch(() => {});
+  }
+</script>
+</body>
+</html>
