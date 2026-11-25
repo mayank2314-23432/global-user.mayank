@@ -26,7 +26,7 @@ const GAMES = [
     blurb: "A first-person physics lab built around a custom soft-body damage system: targets deform, tear and break apart realistically under different weapons. Join the Discord to follow progress and give feedback.",
     accent: "#7c5cff",
     image: "images/teatherlab.jpg",
-    links: {},
+    links: { github: "https://github.com/mayank2314-23432/global-user.mayank/tree/main/games/TeatherLab" },
     hasDiscord: true,
     featured: true
   },
@@ -38,7 +38,7 @@ const GAMES = [
     blurb: "You are a spirit orb that survives by possessing hosts. Each host is won by solving its own puzzle, played with your voice, microphone and webcam, or with keyboard and mouse.",
     accent: "#ff8a3c",
     image: "",
-    links: {}
+    links: { github: "https://github.com/mayank2314-23432/global-user.mayank/tree/main/games/Borrowed" }
   },
   {
     title: "Burned Lines",
@@ -48,7 +48,7 @@ const GAMES = [
     blurb: "A dark, gritty first-person survival shooter. Fight through a collapsing facility with limited stamina and a flashlight, while fire, falling ceilings and sparking wires are as dangerous as the enemies.",
     accent: "#ff4d5e",
     image: "images/burned-lines.jpg",
-    links: {}
+    links: { github: "https://github.com/mayank2314-23432/global-user.mayank/tree/main/games/BurnedLines" }
   },
   {
     title: "Havoworld",
@@ -58,7 +58,7 @@ const GAMES = [
     blurb: "A physics destruction sandbox. Structures fracture into chunks and debris based on where and how hard they are hit, so every collapse plays out differently.",
     accent: "#2fd6a3",
     image: "",
-    links: {}
+    links: { github: "https://github.com/mayank2314-23432/global-user.mayank/tree/main/games/Havoworld" }
   }
   // Add more games by copying a block above.
 ];

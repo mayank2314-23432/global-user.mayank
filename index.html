@@ -206,7 +206,7 @@
     else { el.classList.add("off"); el.innerHTML = DISCORD_ICON + "Discord link coming soon"; }
   }
 
-  const LINK_LABELS = { play: "Play", trailer: "Trailer", steam: "Steam", itch: "itch.io", github: "Source" };
+  const LINK_LABELS = { play: "Play", trailer: "Trailer", steam: "Steam", itch: "itch.io", github: "View on GitHub" };
   $("grid").innerHTML = GAMES.map(g => {
     const links = Object.entries(g.links || {}).filter(([, u]) => u)
       .map(([k, u]) => `<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${LINK_LABELS[k] || esc(k)}</a>`).join("");
