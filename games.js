@@ -20,9 +20,10 @@ const SITE = {
 const GAMES = [
   {
     title: "TeatherLab",
-    engine: "Unreal Engine",
+    engine: "Unreal Engine 5",
+    genre: "Physics sandbox",
     status: "In development",
-    blurb: "Currently in development. Join the Discord to follow progress, see builds early and give feedback.",
+    blurb: "A first-person physics lab built around a custom soft-body damage system: targets deform, tear and break apart realistically under different weapons. Join the Discord to follow progress and give feedback.",
     accent: "#7c5cff",
     image: "",
     links: {},
@@ -31,27 +32,30 @@ const GAMES = [
   },
   {
     title: "Borrowed",
-    engine: "Unity",
+    engine: "Unity 6",
+    genre: "Puzzle adventure",
     status: "In development",
-    blurb: "Currently in development. More details coming soon.",
+    blurb: "You are a spirit orb that survives by possessing hosts. Each host is won by solving its own puzzle, played with your voice, microphone and webcam, or with keyboard and mouse.",
     accent: "#ff8a3c",
     image: "",
     links: {}
   },
   {
-    title: "Burnedlines",
-    engine: "",
+    title: "Burned Lines",
+    engine: "Unreal Engine 5",
+    genre: "Survival FPS",
     status: "In development",
-    blurb: "Currently in development. More details coming soon.",
+    blurb: "A dark, gritty first-person survival shooter. Fight through a collapsing facility with limited stamina and a flashlight, while fire, falling ceilings and sparking wires are as dangerous as the enemies.",
     accent: "#ff4d5e",
     image: "",
     links: {}
   },
   {
     title: "Havoworld",
-    engine: "",
+    engine: "Unity",
+    genre: "Destruction sandbox",
     status: "In development",
-    blurb: "Currently in development. More details coming soon.",
+    blurb: "A physics destruction sandbox. Structures fracture into chunks and debris based on where and how hard they are hit, so every collapse plays out differently.",
     accent: "#2fd6a3",
     image: "",
     links: {}

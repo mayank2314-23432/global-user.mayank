@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Game Portfolio</title>
-<meta name="description" content="Game development portfolio: TeatherLab, Borrowed, Burnedlines, Havoworld and more.">
+<meta name="description" content="Game development portfolio: TeatherLab, Borrowed, Burned Lines, Havoworld and more.">
 <style>
   :root {
     --bg: #060a0e; --panel: #0c1218; --line: #17303a;
@@ -218,6 +218,7 @@
         <div class="tags">
           <span class="tag status">${esc(g.status)}</span>
           ${g.engine ? `<span class="tag">${esc(g.engine)}</span>` : ""}
+          ${g.genre ? `<span class="tag">${esc(g.genre)}</span>` : ""}
         </div>
         <h3>${esc(g.title)}</h3>
         <p>${esc(g.blurb)}</p>
