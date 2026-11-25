@@ -25,7 +25,7 @@ const GAMES = [
     status: "In development",
     blurb: "A first-person physics lab built around a custom soft-body damage system: targets deform, tear and break apart realistically under different weapons. Join the Discord to follow progress and give feedback.",
     accent: "#7c5cff",
-    image: "",
+    image: "images/teatherlab.jpg",
     links: {},
     hasDiscord: true,
     featured: true
@@ -47,7 +47,7 @@ const GAMES = [
     status: "In development",
     blurb: "A dark, gritty first-person survival shooter. Fight through a collapsing facility with limited stamina and a flashlight, while fire, falling ceilings and sparking wires are as dangerous as the enemies.",
     accent: "#ff4d5e",
-    image: "",
+    image: "images/burned-lines.jpg",
     links: {}
   },
   {
