@@ -6,6 +6,8 @@ const SITE = {
   name: "Mayank Choudhary",
   role: "Game Developer",
   tagline: "I build games in Unity and Unreal Engine. Everything here is in active development.",
+  about: "I'm a game developer working in Unity and Unreal Engine. I like systems-heavy games: physics, destruction, damage simulation, and unusual ways to play such as voice and webcam input.",
+  skills: ["Unreal Engine 5", "Unity 6", "C#", "C++", "Blueprints", "Gameplay programming", "Physics & destruction", "Enemy AI", "UI & menus", "VR"],
   github: "https://github.com/mayank2314-23432",        // e.g. "https://github.com/your-username"
   contactEmail: "",    // optional, shown as a contact button if filled in
 
